@@ -7,6 +7,8 @@ import {
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import {
   FeedPageContainer,
+  PostCard,
+  PostsContainer,
   SearchContainer,
   SearchFormContainer,
   UserInfoContainer,
@@ -61,6 +63,45 @@ export function Feed() {
           <input placeholder="Buscar conteúdo" />
         </SearchFormContainer>
       </SearchContainer>
+
+      <PostsContainer>
+        <PostCard>
+          <div>
+            <h2>Title</h2>
+            <span>Há 1 dia</span>
+          </div>
+          <span>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod neque
+            eos eligendi excepturi in eaque sint aspernatur earum impedit
+            asperiores, iure quibusdam odit adipisci minima totam, vitae, porro
+            et amet?
+          </span>
+        </PostCard>
+        <PostCard>
+          <div>
+            <h2>Title</h2>
+            <span>Há 1 dia</span>
+          </div>
+          <span>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod neque
+            eos eligendi excepturi in eaque sint aspernatur earum impedit
+            asperiores, iure quibusdam odit adipisci minima totam, vitae, porro
+            et amet?
+          </span>
+        </PostCard>
+        <PostCard>
+          <div>
+            <h2>Title</h2>
+            <span>Há 1 dia</span>
+          </div>
+          <span>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod neque
+            eos eligendi excepturi in eaque sint aspernatur earum impedit
+            asperiores, iure quibusdam odit adipisci minima totam, vitae, porro
+            et amet?
+          </span>
+        </PostCard>
+      </PostsContainer>
     </FeedPageContainer>
   )
 }
