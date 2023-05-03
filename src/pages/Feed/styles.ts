@@ -142,6 +142,7 @@ export const PostCard = styled.article`
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 1.25rem;
+    gap: 2rem;
 
     > h2 {
       font-size: 1.25rem;
@@ -152,6 +153,7 @@ export const PostCard = styled.article`
     > span {
       font-size: 0.875rem;
       color: ${(props) => props.theme.span};
+      min-width: 5rem;
     }
   }
 `
