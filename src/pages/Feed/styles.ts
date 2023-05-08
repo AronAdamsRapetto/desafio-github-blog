@@ -65,6 +65,18 @@ export const PostCard = styled.article`
   padding: 2rem;
   background: ${(props) => props.theme.post};
   border-radius: 10px;
+  border: 2px solid transparent;
+
+  &:hover {
+    border-color: ${(props) => props.theme.label};
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  & a {
+    text-decoration: none;
+    color: ${(props) => props.theme.text};
+  }
 
   & div {
     display: flex;

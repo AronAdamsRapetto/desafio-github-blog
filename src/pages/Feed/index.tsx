@@ -10,6 +10,16 @@ import { useCallback, useEffect, useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import { API } from '../../lib/axios'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { NavLink } from 'react-router-dom'
+
+const searchFormSchema = z.object({
+  query: z.string(),
+})
+
+type SearchFormInputs = z.infer<typeof searchFormSchema>
 
 interface Post {
   body: string
@@ -24,6 +34,9 @@ interface PostResponse extends Post {
 
 export function Feed() {
   const [posts, setPosts] = useState<Post[]>([])
+  const { register, handleSubmit } = useForm<SearchFormInputs>({
+    resolver: zodResolver(searchFormSchema),
+  })
 
   const formatPosts = useCallback((postList: PostResponse[]) => {
     const filteredPosts = postList.filter(
@@ -69,6 +82,27 @@ export function Feed() {
     fetchPosts()
   }, [fetchPosts])
 
+  const queryPosts = useCallback(
+    async (query: string) => {
+      const response = await API.get('/search/issues', {
+        params: {
+          q: `${query}repo:AronAdamsRapetto/desafio-github-blog`,
+        },
+      })
+      return formatPosts(response.data.items)
+    },
+    [formatPosts],
+  )
+
+  const handleSearchPosts = async (data: SearchFormInputs) => {
+    if (!data.query) {
+      await fetchPosts()
+    } else {
+      const posts = await queryPosts(data.query)
+      setPosts(posts)
+    }
+  }
+
   return (
     <FeedPageContainer>
       <UserProfile />
@@ -76,25 +110,32 @@ export function Feed() {
       <SearchContainer>
         <div>
           <h2>Publicações</h2>
-          <span>0 publicações</span>
+          <span>{`${posts.length} publicações`}</span>
         </div>
 
-        <SearchFormContainer>
-          <input placeholder="Buscar conteúdo" />
+        <SearchFormContainer onSubmit={handleSubmit(handleSearchPosts)}>
+          <input
+            type="text"
+            placeholder="Buscar conteúdo"
+            {...register('query')}
+          />
         </SearchFormContainer>
       </SearchContainer>
 
       <PostsContainer>
-        {posts.length &&
-          posts.map((post: Post) => (
-            <PostCard key={post.id}>
-              <div>
-                <h2>{post.title}</h2>
-                <span>{post.created_at}</span>
-              </div>
-              <span>{post.body}</span>
-            </PostCard>
-          ))}
+        {posts.length
+          ? posts.map((post: Post) => (
+              <PostCard key={post.id}>
+                <NavLink to={`/post/${post.id}`}>
+                  <div>
+                    <h2>{post.title}</h2>
+                    <span>{post.created_at}</span>
+                  </div>
+                  <span>{post.body}</span>
+                </NavLink>
+              </PostCard>
+            ))
+          : null}
       </PostsContainer>
     </FeedPageContainer>
   )
