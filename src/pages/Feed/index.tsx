@@ -1,34 +1,15 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faArrowUpRightFromSquare,
-  faBuilding,
-  faUserGroup,
-} from '@fortawesome/free-solid-svg-icons'
-import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import {
   FeedPageContainer,
   PostCard,
   PostsContainer,
   SearchContainer,
   SearchFormContainer,
-  UserInfoContainer,
-  UserProfileContainer,
-  UserProfileHeader,
 } from './styles'
 import { useCallback, useEffect, useState } from 'react'
 import { API } from '../../lib/axios'
 import { formatDistanceToNow } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
-
-interface User {
-  avatarUrl: string
-  name: string
-  bio: string
-  followers: number
-  company: string
-  login: string
-  profileLink: string
-}
+import { UserProfile } from './UserProfile'
 
 interface Post {
   body: string
@@ -42,32 +23,7 @@ interface PostResponse extends Post {
 }
 
 export function Feed() {
-  const [user, setUser] = useState<User>({} as User)
   const [posts, setPosts] = useState<Post[]>([])
-
-  const fetchUser = async () => {
-    const response = await API.get('/users/AronAdamsRapetto')
-
-    const {
-      name,
-      login,
-      avatar_url: avatarUrl,
-      followers,
-      company,
-      bio,
-      html_url: htmlUrl,
-    } = response.data
-
-    setUser({
-      name,
-      login,
-      avatarUrl,
-      followers,
-      company,
-      bio,
-      profileLink: htmlUrl,
-    })
-  }
 
   const fetchPosts = useCallback(async (query = '') => {
     const {
@@ -100,40 +56,12 @@ export function Feed() {
   }, [])
 
   useEffect(() => {
-    fetchUser()
     fetchPosts()
   }, [fetchPosts])
 
   return (
     <FeedPageContainer>
-      <UserProfileContainer>
-        <img src={user.avatarUrl} alt="" />
-        <div>
-          <UserProfileHeader>
-            <h1>{user.name}</h1>
-            <a href={user.profileLink} target="_blank" rel="noreferrer">
-              <span>GITHUB</span>
-              <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-            </a>
-          </UserProfileHeader>
-          <span>{user.bio}</span>
-          <UserInfoContainer>
-            <div>
-              <FontAwesomeIcon icon={faGithub} />
-              <span>{user.login}</span>
-            </div>
-            <div>
-              <FontAwesomeIcon icon={faBuilding} />
-              <span>{user.company ? user.company : 'Vazio'}</span>
-            </div>
-            <div>
-              <FontAwesomeIcon icon={faUserGroup} />
-              <span>{`${user.followers} seguidores`}</span>
-            </div>
-          </UserInfoContainer>
-        </div>
-      </UserProfileContainer>
-
+      <UserProfile />
       <SearchContainer>
         <div>
           <h2>Publicações</h2>
