@@ -20,7 +20,7 @@ interface User {
   followers: number
   company: string
   login: string
-  profileLink: string
+  htmlUrl: string
 }
 
 export function UserProfile() {
@@ -46,7 +46,7 @@ export function UserProfile() {
       followers,
       company,
       bio,
-      profileLink: htmlUrl,
+      htmlUrl,
     })
   }
 
@@ -60,7 +60,7 @@ export function UserProfile() {
       <div>
         <UserProfileHeader>
           <h1>{user.name}</h1>
-          <a href={user.profileLink} target="_blank" rel="noreferrer">
+          <a href={user.htmlUrl} target="_blank" rel="noreferrer">
             <span>GITHUB</span>
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
           </a>
