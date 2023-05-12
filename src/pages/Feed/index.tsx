@@ -24,7 +24,7 @@ type SearchFormInputs = z.infer<typeof searchFormSchema>
 interface Post {
   body: string
   created_at: string
-  id: number
+  number: number
   title: string
 }
 
@@ -56,7 +56,7 @@ export function Feed() {
       return {
         body: `${post.body.slice(0, 120)}...`,
         created_at: distanceToNowDate,
-        id: post.id,
+        number: post.number,
         title: shortTitle,
       }
     })
@@ -72,6 +72,7 @@ export function Feed() {
         q: `repo:AronAdamsRapetto/desafio-github-blog`,
       },
     })
+    console.log(items)
 
     const formatedPosts = formatPosts(items)
 
@@ -125,8 +126,8 @@ export function Feed() {
       <PostsContainer>
         {posts.length
           ? posts.map((post: Post) => (
-              <PostCard key={post.id}>
-                <NavLink to={`/post/${post.id}`}>
+              <PostCard key={post.number}>
+                <NavLink to={`/post/${post.number}`}>
                   <div>
                     <h2>{post.title}</h2>
                     <span>{post.created_at}</span>
