@@ -60,3 +60,31 @@ export const PostInfoContainer = styled.div`
     color: ${(props) => props.theme.span};
   }
 `
+
+export const PostContentContainer = styled.article`
+  white-space: pre-wrap;
+  padding: 2.5rem 2rem;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+    text-decoration-line: underline;
+    line-height: 1.6;
+    font-weight: 400;
+    color: ${(props) => props.theme.blue};
+  }
+
+  > pre {
+    padding: 1em;
+    background: ${(props) => props.theme.post};
+    border-radius: 2px;
+    overflow-x: auto;
+  }
+
+  > code {
+  }
+`

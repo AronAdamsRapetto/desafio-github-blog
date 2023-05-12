@@ -9,6 +9,7 @@ import {
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import {
   NavContainer,
+  PostContentContainer,
   PostHeader,
   PostInfoContainer,
   PostPageContainer,
@@ -17,6 +18,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { API } from '../../lib/axios'
 import ptBR from 'date-fns/locale/pt-BR'
 import { formatDistanceToNow } from 'date-fns'
+import ReactMarkdown from 'react-markdown'
 
 interface PostData {
   postOwner: string
@@ -75,7 +77,7 @@ export function Post() {
             <FontAwesomeIcon icon={faChevronLeft} />
             <span>VOLTAR</span>
           </NavLink>
-          <a href="#">
+          <a href={postData.html_url} target="_blank" rel="noreferrer">
             <span>VER NO GITHUB</span>
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
           </a>
@@ -96,6 +98,9 @@ export function Post() {
           </div>
         </PostInfoContainer>
       </PostHeader>
+      <PostContentContainer>
+        <ReactMarkdown>{postData.body}</ReactMarkdown>
+      </PostContentContainer>
     </PostPageContainer>
   )
 }
